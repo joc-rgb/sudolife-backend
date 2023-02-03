@@ -5,7 +5,7 @@
   * cors
   * helmet
   * hpp
-  * compression(compress req n res)
+  * compression(compress req & res)
   * cookie-session
   * http-status-codes
   * express-async-error
@@ -14,3 +14,8 @@
   * bunyan
   
 * Database Setup (Mongoose)
+
+* Absolute path Setup (@root -> should be last)
+  * typescript-transform-path
+  * ttypescript
+  
