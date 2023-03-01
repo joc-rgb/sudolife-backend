@@ -2,6 +2,7 @@ import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import Logger from 'bunyan';
 import { config } from '@root/config';
+import { redisConnection } from '@service/redis/redis.connection';
 
 dotenv.config();
 
@@ -13,6 +14,7 @@ export default () => {
       .connect(config.DATABASE_URL!)
       .then(() => {
         log.info('Successfully connected to database');
+        redisConnection.connect();
       })
       .catch((error) => {
         log.error(error);
