@@ -45,6 +45,9 @@ class Config {
     return bunyan.createLogger({ name, level: 'debug' });
   }
 
+  /**
+   *  Check if all env value exist
+   */
   public validateConfig(): void {
     for (const [key, value] of Object.entries(this)) {
       if (value === undefined) {
