@@ -1,5 +1,5 @@
 import dotenv from 'dotenv';
-import bunyan from 'bunyan';
+import winston from 'winston';
 import cloudinary from 'cloudinary';
 
 dotenv.config();
@@ -21,7 +21,7 @@ class Config {
   public SENDGRID_SENDER: string | undefined;
   public EC2_URL: string | undefined;
 
-  private readonly DEFAULT_DATABASE_URL = 'mongodb://localhost:27017/chattyapp-backend';
+  private readonly DEFAULT_DATABASE_URL = '';
 
   constructor() {
     this.DATABASE_URL = process.env.DATABASE_URL || this.DEFAULT_DATABASE_URL;
@@ -41,10 +41,13 @@ class Config {
     this.EC2_URL = process.env.EC2_URL || '';
   }
 
-  public createLogger(name: string): bunyan {
-    return bunyan.createLogger({ name, level: 'debug' });
+  public createLogger(): winston.Logger {
+    return winston.createLogger({ level: 'debug', defaultMeta: {} });
   }
 
+  /**
+   *  Check if all env value exist
+   */
   public validateConfig(): void {
     for (const [key, value] of Object.entries(this)) {
       if (value === undefined) {
