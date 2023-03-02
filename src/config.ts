@@ -1,5 +1,5 @@
 import dotenv from 'dotenv';
-import bunyan from 'bunyan';
+import winston from 'winston';
 import cloudinary from 'cloudinary';
 
 dotenv.config();
@@ -41,8 +41,8 @@ class Config {
     this.EC2_URL = process.env.EC2_URL || '';
   }
 
-  public createLogger(name: string): bunyan {
-    return bunyan.createLogger({ name, level: 'debug' });
+  public createLogger(): winston.Logger {
+    return winston.createLogger({ level: 'debug', defaultMeta: {} });
   }
 
   /**

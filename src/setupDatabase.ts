@@ -1,23 +1,24 @@
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
-import Logger from 'bunyan';
 import { config } from '@root/config';
 import { redisConnection } from '@service/redis/redis.connection';
+import winston from 'winston';
 
 dotenv.config();
 
-const log: Logger = config.createLogger('database');
+const log: winston.Logger = config.createLogger();
 
 export default () => {
   const connect = () => {
     mongoose
       .connect(config.DATABASE_URL!)
       .then(() => {
-        log.info('Successfully connected to database');
+        log.info('[SETUPDATABASE]: Successfully connected to database');
         redisConnection.connect();
       })
       .catch((error) => {
-        log.error(error);
+        log.error(`[SETUPDATABASE.TS]: ${error}`);
+
         return process.exit(1);
       });
   };

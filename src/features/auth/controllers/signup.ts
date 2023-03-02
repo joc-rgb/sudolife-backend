@@ -11,13 +11,19 @@ import HTTP_STATUS from 'http-status-codes';
 import { UserCache } from '@service/redis/user.cache';
 import { IUserDocument } from '@user/interfaces/user.interface';
 import { config } from '@root/config';
+import winston from 'winston';
 
 const userCache: UserCache = new UserCache();
+const log: winston.Logger = config.createLogger();
 
 export class SignUp {
   @joiValidation(signupSchema)
   public async create(req: Request, res: Response): Promise<void> {
+    log.info(`[SIGNUP DATA RECEIVED]: ${req.body}`);
+
     const { username, email, password, avatarColor, avatarImage } = req.body;
+    log.info('[SIGNUP]: REQUEST RECEIVED.');
+
     const isUserExist: IAuthDocument = await authService.getUserByUsernameOrEmail(username, email);
 
     if (isUserExist) {
@@ -41,7 +47,7 @@ export class SignUp {
     const userDataForCache: IUserDocument = SignUp.prototype.userData(authData, userObjectId);
     userDataForCache.profilePicture = `https://res.cloudinary.com/${config.CLOUD_NAME}/image/upload/v${result.version}/${userObjectId}`;
 
-    await userCache.saveUserToCache(`${userObjectId}`, uId, userDataForCache);
+    // await userCache.saveUserToCache(`${userObjectId}`, uId, userDataForCache);
     res.status(HTTP_STATUS.CREATED).json({ message: 'User created successfully!' });
   }
 
