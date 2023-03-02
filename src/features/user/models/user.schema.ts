@@ -33,3 +33,9 @@ const userSchema: Schema = new Schema({
 
 const UserModel: Model<IUserDocument> = model<IUserDocument>('User', userSchema, 'User');
 export { UserModel };
+
+/**
+ * The reason why there is no username, email, and password fields in this Mongoose schema is because these fields are likely defined in a separate Mongoose schema for the authentication system, which could be referenced by the authId field in this schema. This is a common design pattern for separating user data from authentication data in a database.
+
+By having a separate authentication schema, it allows for more flexibility in how the authentication system is implemented, and also allows for the possibility of using different authentication methods (such as OAuth or SAML) without having to change the user schema. Additionally, by separating the authentication data from the user data, it can improve security by reducing the risk of exposing sensitive information like passwords or authentication tokens.
+ */
